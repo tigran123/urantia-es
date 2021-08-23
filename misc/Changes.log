@@ -1,0 +1,33 @@
+The log of all fixes performed on the exemplar set USGNY-Spanish-exemplar-20210812.zip
+These are only fixes (i.e. they stay permanently) as opposed to data conversions, which are specific to typesetting.
+
+1. Replace all occurrences of "‑" to the ASCII hyphen "-". In the present text the Unicode character "‑" and the
+ASCII hyphen "-" were used interchangeably, probably because their glyphs look very similar in most typefaces.
+Statistics: 30 files changed, 167 lines
+
+2. Fix misplaced space at the beginning or the end of italics markup
+Statistics: 129 files changed, 391 lines
+
+3. Fix misplaced punctuation marks at the end of italics markup
+Statistics: 130 files changed, 407 lines
+
+4. Misplaced spaces around emdashes
+Statistics: 8 files changed, 9 lines
+
+5. Misplaced bold tags
+Statistics: 2 files changed, 2 lines
+
+6. Missing opening quote at line 19 of p196: (should be “Ir en pos de Jesús”)
+
+7. Replace the Unicode character … with ASCII string "..."
+Statistics: 4 files changed
+
+8. Make the use of ellipsis consistent
+Statistics: 2 file changed, 20 lines
+
+9. Missing closing quote at line 71 of p028: (should be “sin deficiencias”)
+
+10. Misplaced spaces around {{{br}}} markup
+Statistics: 22 files changed, 23 lines
+
+11. Replace "3651/4" at 57:0.1 with "365¼"
