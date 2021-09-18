@@ -11,28 +11,10 @@
 %\tunemarkuptag{pgthinmob}
 %\tunemarkuptag{pgkoboaurahd}
 
-\RequirePackage[figure,curq,nfnst]{totalcount}
-\RequirePackage{caption,makeidx}
-\RequirePackage[columns=1,font=current]{idxlayout}
 \RequirePackage[parvs]{ubook}
-
-\RequirePackage{etoolbox}
-\patchcmd{\thebibliography}{\chapter*}{\section*}{}{}
 
 % various font families
 \tunemarkuptag{garamond}
-
-% comment out to enable footnotes
-%\tunemarkuptag{nofnt}
-
-% comment out for public build
-\tunemarkuptag{private}
-
-% comment out to disable pictures
-\tunemarkuptag{pictures}
-
-% comment out to enable Cosmic Citizenship Quiz
-\tunemarkuptag{noquiz}
 
 \setdefaultlanguage{spanish}
 
@@ -67,20 +49,8 @@
 \newfontfamily\sectiontitlefont[WordSpace=2.0,Letters=Uppercase,LetterSpace=4.0,Mapping=tex-text]{\urantiaheaderfont}
 \newfontfamily\headingfont[LetterSpace=1.2,WordSpace=1.2,Mapping=tex-text]{\urantiaheadingfont}
 \newfontfamily\authorfontfamily[Mapping=tex-text]{\urantiaauthorfont}
-
-%\newfontfamily\captionfont[Mapping=tex-text]{Linux Libertine O}
-\DeclareCaptionFormat{capfont}{\captionfont\large#1#2#3}
-\captionsetup{format=capfont,labelfont=bf,margin={0cm,0cm},justification=justified,singlelinecheck=off}
-
 \newfontfamily\libertinefont[Mapping=tex-text]{Linux Libertine O}
 \newcommand{\tux}{{\libertinefont ^^^^e000}}
-\newcommand{\dt}{\ensuremath{\cdot}}
-
-% for typesetting fractions: 1/2, 1/6, etc.
-\newcommand{\bibfrac}[2]{{\addfontfeature{Fractions=On}#1/#2}}
-% for fonts which have no support for fractions uncomment these two lines
-%\RequirePackage{nicefrac}
-%\renewcommand{\bibfrac}[2]{\nicefrac{#1}{#2}}
 
 \newcounter{paper}
 \newcounter{secnum}
@@ -184,12 +154,6 @@
 
 \RequirePackage{enumitem}
 
-\newcommand{\quizsymbol}{\textcolor{ubblue}{\usefont{U}{webo}{xl}{n}7}}
-
-\newcommand{\quizlink}{\par\vspace*{\stretch{0.1}}\begin{center}\hyperlink{qc\thepaper}{\Huge\quizsymbol}\end{center}\vspace*{\stretch{0.9}}}%
-
-%\tunemarkup{noquiz}{\def\quizlink{}}
-
 \newcommand{\titleframe}{%
 \begingroup
 \tunemarkup{pgnexus10}{%
@@ -256,175 +220,15 @@
 \endgroup
 }
 
-\tunemarkup{pgkoboaurahd}{\tolerance=2000}
-\tunemarkup{pgthinmob}{\tolerance=9999}
-
 \DeclareTextAccent{\'}{\encodingdefault}{180}
 
 \setlength{\columnsep}{3.5mm}
 \setlength\parindent{14\p@}
 
-% Cosmic Citizenship Quiz macros
-
-\newcommand{\questionfont}{\fontsize{16}{19}\bfseries}
-\newcommand{\answersfont}{\fontsize{16}{19}\selectfont}
-
-\newcommand{\quizheader}{%
-   \newpage
-   \bibpdfbookmark{КОСМИЧЕСКОЕ ГРАЖДАНСТВО}{qz}%
-   \vspace*{\stretch{0.2}}%
-   \begin{center}\titlefont\fontsize{20}{20}\selectfont КОСМИЧЕСКОЕ ГРАЖДАНСТВО\\(\totalcurqs\ вопросов)\\\end{center}%
-   \vspace*{\stretch{0.7}}%
-   \newpage
-   \newcount\i
-   \i=0\relax
-   \loop
-     \ifnum\i<197
-        \@ifundefined{pqcount\the\i}{\expandafter\def\csname pqcount\the\i\endcsname{0}}{}%
-     \advance\i by1
-   \repeat
-}
-
-\newcommand{\quizpart}[1]{%
-   \newpage\LARGE
-   \vspace*{\stretch{0.2}}%
-   \ifnum #1=1
-      \bibpdfbookmark[1]{\partimix}{qp1}%
-      \begin{center}\titlefont\MakeUppercase{\partimix}\end{center}%
-   \fi
-   \ifnum #1=2
-      \bibpdfbookmark[1]{\partiimix}{qp2}%
-      \begin{center}\titlefont\MakeUppercase{\partiimix}\end{center}%
-   \fi
-   \ifnum #1=3
-      \bibpdfbookmark[1]{\partiiimix}{qp3}%
-      \begin{center}\titlefont\MakeUppercase{\partiiimix}\end{center}%
-   \fi
-   \ifnum #1=4
-      \bibpdfbookmark[1]{\partivmix}{qp4}%
-      \begin{center}\titlefont\MakeUppercase{\partivmix}\end{center}%
-   \fi
-   \vspace*{\stretch{0.7}}%
-   \newpage
-}
-
-\newcount\qpapernum
-
-\newcommand{\qpaper}[2]{%
-   \newpage
-   \qpapernum=\number#1\relax
-   \setcounter{paperqcount}{0}%
-   \ifnum #1=0\quizpart{1}\fi
-   \ifnum #1=32\quizpart{2}\fi
-   \ifnum #1=57\quizpart{3}\fi
-   \ifnum #1=120\quizpart{4}\fi
-   \vspace*{\stretch{0.2}}%
-   \bib@raise@anchor{\bibpdfbookmark[2]{#1. #2}{qc#1}\hypertarget{qc#1}{}}%
-   \begin{center}\titlefont\LARGE#1.\nobreakspace\hyperlink{p#1}{\MakeUppercase{#2}}\\(\csname pqcount#1\endcsname\ вопросов)\\\end{center}
-   \vspace*{\stretch{0.7}}%
-   \newpage
-}
-
-\newcounter{nfnst}
-\newcounter{paperqcount}
-\newcounter{curq}
-\newcounter{cans}
-
-\newcommand{\printquestion}{\noindent\questionfont\question}
-
-\newlength{\quizanswermargin}
-\setlength{\quizanswermargin}{4em}
-
-\newcommand{\qstart}[1]{%
-  \newpage
-  \setcounter{cans}{0}%
-  \stepcounter{curq}%
-  \stepcounter{paperqcount}%
-  \expandafter\edef\csname pqcount\the\qpapernum\endcsname{\thepaperqcount}
-  \gdef\question{#1}%
-  \printquestion
-  \begin{enumerate}[leftmargin=\quizanswermargin,label=\protect\ding{\value*},start=172]%
-  \answersfont
-  \@answers
-}
-
-\tunemarkuptwo{noquiz}{}{%
-\AtEndDocument{%
-\newcount\pqcounter
-\pqcounter=0
-\noindent
-\loop
-  \ifnum\pqcounter<197
-    \immediate\write\@mainaux{\string\expandafter\string\gdef\string\csname\space pqcount\the\pqcounter\string\endcsname{\csname pqcount\the\pqcounter\endcsname}}
-  \advance\pqcounter by1
-\repeat
-}
-}
-
-\newcommand\@answers{\@ifnextchar\qstop{\@answersend}{\@nextanswer}}
-
-\newcommand\@nextanswer[2]{%
-  \stepcounter{cans}%
-  \item \hyperlink{ans\thecurq}{#1}%
-  \ifnum \value{cans}=1 \gdef\answerone{#1 \ifnum #2=1 \cmark\else\xmark\fi}\fi
-  \ifnum \value{cans}=2 \gdef\answertwo{#1 \ifnum #2=1 \cmark\else\xmark\fi}\fi
-  \ifnum \value{cans}=3 \gdef\answerthree{#1 \ifnum #2=1 \cmark\else\xmark\fi}\fi
-  \ifnum \value{cans}=4 \gdef\answerfour{#1 \ifnum #2=1 \cmark\else\xmark\fi}\fi
-  \ifnum \value{cans}=5 \gdef\answerfive{#1 \ifnum #2=1 \cmark\else\xmark\fi}\fi
-  \ifnum \value{cans}=6 \gdef\answersix{#1 \ifnum #2=1 \cmark\else\xmark\fi}\fi
-  \ifnum \value{cans}=7 \gdef\answerseven{#1 \ifnum #2=1 \cmark\else\xmark\fi}\fi
-  \ifnum \value{cans}=8 \gdef\answereight{#1 \ifnum #2=1 \cmark\else\xmark\fi}\fi
-  \ifnum \value{cans}=9 \gdef\answernine{#1 \ifnum #2=1 \cmark\else\xmark\fi}\fi
-  \ifnum \value{cans}=10 \gdef\answerten{#1 \ifnum #2=1 \cmark\else\xmark\fi}\fi
-  \@answers
-}
-
-\newcommand\@answersend[1]{%
-  \end{enumerate}%
-  \newpage
-  \hypertarget{ans\thecurq}{}%
-  \printquestion
-  \begin{enumerate}[leftmargin=\quizanswermargin,label=\protect\ding{\value*},start=172]%
-  \answersfont
-  \item \answerone
-  \ifnum \value{cans}>1 \item \answertwo\fi
-  \ifnum \value{cans}>2 \item \answerthree\fi
-  \ifnum \value{cans}>3 \item \answerfour\fi
-  \ifnum \value{cans}>4 \item \answerfive\fi
-  \ifnum \value{cans}>5 \item \answersix\fi
-  \ifnum \value{cans}>6 \item \answerseven\fi
-  \ifnum \value{cans}>7 \item \answereight\fi
-  \ifnum \value{cans}>8 \item \answernine\fi
-  \ifnum \value{cans}>9 \item \answerten\fi
-  \end{enumerate}%
-}
-
-\newcommand{\cmark}{\textcolor{ubgreen}{\ding{51}}}
-\newcommand{\xmark}{\textcolor{ubdarkred}{\ding{55}}}
-
 \newcommand{\hsetoff}{\hspace*{1em}}
 \newcommand{\vsetspace}{\vspace{1ex}}
 \newcommand{\bibcovertitlefont}{\parttitlefont\fontsize{18}{18}\selectfont}
 \protected\def\print@vssup#1{\makebox[0.9em][l]{\@textsuperscript{\fontsize{7}{7}\bfseries#1}}\kern0.4em\relax}
-
-\tunemarkuptwo{nofnt}{%
- \def\fnst#1{}
-}{%
- \def\fnst#1{\stepcounter{nfnst}\footnote{#1}}
-}
-
-% for mini-TOC of each paper
-\newcounter{uminitocnum}
-
-\newcommand{\uminitoc}[1]{%
-   {%
-    \stepcounter{uminitocnum}%
-    \bibsectitlefont
-    \makebox[0.08\linewidth][r]{\theuminitocnum.\,}%
-    \makebox[0.85\linewidth][l]{#1\bibdf}%
-    \makebox[0.06\linewidth][r]{\bibpr{p\thepaper_\theuminitocnum}}\\%
-   }%
-}
 
 % for TOC entries horizontal spacing
 \newcommand{\numw}{0.08\linewidth}
@@ -454,14 +258,12 @@
 \renewcommand{\bibheadfont}{\headingfont\fontsize{7.7}{7.7}\selectfont}
 \newcommand{\bibbookend}{\fontsize{16.5}{19}\selectfont}
 \newcommand{\urantiamainfontsize}{16.5/19}
-\renewcommand{\footnotesize}{\fontsize{14}{16}\selectfont}
 \newcommand{\authorfontsize}{\fontsize{26}{8}\selectfont}%
-\newcommand{\introfontsize}{\fontsize{15.5}{17}\selectfont}
 \newcommand{\titlefontsize}{\fontsize{19}{28}\selectfont}
-\newcommand{\indexfontsize}{\fontsize{19}{28}\selectfont}
 }
 
 \tunemarkup{pgthinmob}{%
+\tolerance=9999
 \definecolor{ubblue}{rgb}{0.0, 0.3, 0.6}
 \definecolor{ubgreen}{rgb}{0.0, 0.4, 0.0}
 \definecolor{ubdarkred}{rgb}{0.8, 0.0, 0.0}
@@ -482,14 +284,12 @@
 \newcommand{\bibsectitlefont}{\sectiontitlefont\fontsize{9}{12}\selectfont}
 \newcommand{\bibbookend}{\fontsize{19}{21}\selectfont}
 \newcommand{\urantiamainfontsize}{19/21}
-\renewcommand{\footnotesize}{\fontsize{16}{18}\selectfont}
 \newcommand{\authorfontsize}{\fontsize{22}{9}\bfseries\itshape}%
-\newcommand{\introfontsize}{\fontsize{17}{19}\selectfont}
 \newcommand{\titlefontsize}{\fontsize{20}{22}\selectfont}
-\newcommand{\indexfontsize}{\fontsize{19}{28}\selectfont}
 }
 
 \tunemarkup{pgkoboaurahd}{%
+\tolerance=9999
 \setcounter{DefaultLines}{2}
 \definecolor{ubblue}{rgb}{0.0, 0.0, 0.0}
 \definecolor{ubgreen}{rgb}{0.0, 0.0, 0.0}
@@ -511,11 +311,8 @@
 \renewcommand{\bibheadfont}{\headingfont\fontsize{7.7}{7.7}\selectfont}
 \newcommand{\bibbookend}{\fontsize{16}{18}\selectfont}
 \newcommand{\urantiamainfontsize}{16/18}
-\renewcommand{\footnotesize}{\fontsize{14}{16}\selectfont}
 \newcommand{\authorfontsize}{\fontsize{21}{8}\selectfont}%
-\newcommand{\introfontsize}{\fontsize{15.5}{17}\selectfont}
 \newcommand{\titlefontsize}{\fontsize{15}{22}\selectfont}
-\newcommand{\indexfontsize}{\fontsize{19}{28}\selectfont}
 }
 
 \newcommand{\vsetoff}{\vspace*{1ex}}%
@@ -532,12 +329,6 @@
   pdfmoddate={D:\pdfdate-00'00'}%
 }%
 }
-
-\newfontfamily\greekfont[Mapping=tex-text]{SBL Greek}
-\newcommand{\textgreek}[1]{{\greekfont#1}}
-
-\newfontfamily\hebrewfont[Mapping=tex-text,Script=Hebrew]{SBL Hebrew}
-\newcommand{\textheb}[1]{{\hebrewfont#1}}
 
 \renewcommand{\bibcontname}{LOS TÍTULOS DE LOS ESCRITOS}
 \def\continuedtxt{(continuación)}
@@ -568,13 +359,10 @@
    \end{center}%
 }
 
-\newcommand{\myurl}[1]{\href{#1}{#1}}
-
 \newcommand{\upaper}[2]{%
 \newpage\thispagestyle{empty}%
 \setcounter{paper}{#1}%
 \setcounter{secnum}{0}%
-\setcounter{uminitocnum}{0}
 \bibpaperdisplay{#1}{#2}%
  \ubookdescr{p#1}{
    toc={\makebox[\numw][r]{#1.\,}\makebox[\txtw][l]{#2\bibdf}},
@@ -659,5 +447,3 @@
 %\hyphenation{%
 %}
 %\end{hyphenrules}
-
-\makeindex
